@@ -44,7 +44,11 @@ everytime when it see x, put into the function
 ```{r}
 z_score = function(x) {
   z = (x-mean(x))/sd(x)
-  
+  if (!is.numeric(x)) {
+    stop("Argument should be numbers")
+  } else if (length(x) < 2) {
+    stop("You need at least 2 numbers to get z score")
+  }
   z # return z
 }
 ```
@@ -54,6 +58,13 @@ check that this works
 z_score(x = x_vec)
 ```
 
+```{r, error = TRUE}
+z_score(x=3) # single number no sd 
+
+z_score(x = c("my", "name")) # character variable no mean and sd 
+
+z_score(x = c(TRUE, FALSE, TRUE, TRUE))
+```
 
 
 

@@ -71,7 +71,11 @@ x is the input everytime when it see x, put into the function
 ``` r
 z_score = function(x) {
   z = (x-mean(x))/sd(x)
-  
+  if (!is.numeric(x)) {
+    stop("Argument should be numbers")
+  } else if (length(x) < 2) {
+    stop("You need at least 2 numbers to get z score")
+  }
   z # return z
 }
 ```
@@ -86,3 +90,23 @@ z_score(x = x_vec)
     ##  [6] -1.107022329  0.325106999  0.599834216  0.421851526 -0.543016965
     ## [11]  1.446758183  0.218251901 -0.888870682 -2.633686248  1.023162590
     ## [16] -0.257822640 -0.226349080  0.824866429  0.690604708  0.441692638
+
+``` r
+z_score(x=3) # single number no sd 
+```
+
+    ## Error in z_score(x = 3): You need at least 2 numbers to get z score
+
+``` r
+z_score(x = c("my", "name")) # character variable no mean and sd 
+```
+
+    ## Warning in mean.default(x): argument is not numeric or logical: returning NA
+
+    ## Error in x - mean(x): non-numeric argument to binary operator
+
+``` r
+z_score(x = c(TRUE, FALSE, TRUE, TRUE))
+```
+
+    ## Error in z_score(x = c(TRUE, FALSE, TRUE, TRUE)): Argument should be numbers
