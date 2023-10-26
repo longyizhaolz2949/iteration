@@ -110,3 +110,40 @@ z_score(x = c(TRUE, FALSE, TRUE, TRUE))
 ```
 
     ## Error in z_score(x = c(TRUE, FALSE, TRUE, TRUE)): Argument should be numbers
+
+## Multiple output
+
+write a function that returns the mean and sd from a sample of numbers
+find a way to return multiple things at the same time, for example both
+mean and sd, for example return a dataframe using tibble
+
+``` r
+mean_and_sd = function(x) {
+   z = (x-mean(x))/sd(x)
+  if (!is.numeric(x)) {
+    stop("Argument should be numbers")
+  } else if (length(x) < 2) {
+    stop("You need at least 2 numbers to get z score")
+  }
+  
+  mean_x = mean(x)
+  sd_x = sd(x)
+  
+  tibble(
+    mean = mean_x, 
+    sd = sd_x
+  )
+  
+}
+```
+
+check
+
+``` r
+mean_and_sd(x_vec)
+```
+
+    ## # A tibble: 1 × 2
+    ##    mean    sd
+    ##   <dbl> <dbl>
+    ## 1  5.06 0.274
