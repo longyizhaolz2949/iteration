@@ -1,0 +1,62 @@
+---
+title: "iteration"
+author: "Longyi Zhao"
+date: "2023-10-26"
+output: github_document
+---
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6, 
+  out.width = "90%"
+)
+
+theme_set (theme_minimal() +theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis", 
+  ggplots.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_disrete = scale_fill_viridis_d
+```
+
+output on this page is fixed 
+```{r}
+set.seed(1)
+```
+
+```{r}
+x_vec = rnorm(20, mean = 5, sd =0.3)
+```
+
+```{r}
+(x_vec - mean(x_vec))/sd(x_vec)
+```
+
+x is the input
+everytime when it see x, put into the function 
+```{r}
+z_score = function(x) {
+  z = (x-mean(x))/sd(x)
+  
+  z # return z
+}
+```
+
+check that this works
+```{r}
+z_score(x = x_vec)
+```
+
+
+
+
+
+
+
