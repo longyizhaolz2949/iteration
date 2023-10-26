@@ -1,4 +1,4 @@
-iteration
+writing functions
 ================
 Longyi Zhao
 2023-10-26
@@ -147,3 +147,62 @@ mean_and_sd(x_vec)
     ##    mean    sd
     ##   <dbl> <dbl>
     ## 1  5.06 0.274
+
+## Multiple Inputs: start getting means and sds
+
+``` r
+x_vec = rnorm(n = 30, mean = 5, sd = 0.5)
+
+tibble(
+  mean = mean(x_vec), 
+  sd = sd(x_vec)
+)
+```
+
+    ## # A tibble: 1 × 2
+    ##    mean    sd
+    ##   <dbl> <dbl>
+    ## 1  5.02 0.391
+
+lets write a function that uses `n`, a true mean and true sd as inputs
+mu = mean sigma = sd
+
+``` r
+sim_mean_sd = function(n_obs, mu, sigma) {
+  
+  x_vec = rnorm(n = n_obs, mean = mu, sd = sigma)
+
+  tibble(
+    mean = mean(x_vec), 
+    sd = sd(x_vec)
+  )
+
+}
+
+sim_mean_sd(n_obs = 30, mu = 5, sigma = 0.5)
+```
+
+    ## # A tibble: 1 × 2
+    ##    mean    sd
+    ##   <dbl> <dbl>
+    ## 1  5.06 0.511
+
+``` r
+# get different mean and sd each time run the function 
+
+sim_mean_sd (12, 12, 4) # positional matching
+```
+
+    ## # A tibble: 1 × 2
+    ##    mean    sd
+    ##   <dbl> <dbl>
+    ## 1  12.6  3.28
+
+``` r
+sim_mean_sd (mu = 12, n_obs = 12, sigma = 4) # can name in different order 
+```
+
+    ## # A tibble: 1 × 2
+    ##    mean    sd
+    ##   <dbl> <dbl>
+    ## 1  11.7  3.72
