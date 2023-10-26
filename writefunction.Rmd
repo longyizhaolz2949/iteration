@@ -130,6 +130,30 @@ sim_mean_sd (12, 12, 4) # positional matching
 sim_mean_sd (mu = 12, n_obs = 12, sigma = 4) # can name in different order 
 ```
 
+## Loading LoTR data
+
+```{r}
+fellowship_ring = readxl::read_excel("./data/LotR_Words.xlsx", range = "B3:D6") |>
+  mutate(movie = "fellowship_ring")
+
+lotr_load_and_tidy = function(path = "data/LotR_Words.xlsx", cell_range, movie_name) {
+  movie_df = readxl::read_excel(path, range = cell_range) |>
+  mutate(movie = movie_name) |>
+  janitor::clean_names() |>
+    pivot_longer(
+      female:male, 
+      names_to = "sex", 
+      values_to = "words"
+    ) |>
+    select(movie, everything())
+  
+  movie_df
+}
+
+lotr_load_and_tidy(cell_range =  "B3:D6", movie_name = "fellowship_ring")
+lotr_load_and_tidy(cell_range =  "F3:H6", movie_name = "two_towers")
+lotr_load_and_tidy(cell_range =  "J3:L6", movie_name = "return_king")
+```
 
 
 
