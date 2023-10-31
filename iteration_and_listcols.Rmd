@@ -1,7 +1,7 @@
 ---
-title: "list"
+title: "iteration_and_listcols"
 author: "Longyi Zhao"
-date: "2023-10-26"
+date: "2023-10-31"
 output: github_document
 ---
 
@@ -109,5 +109,58 @@ for (i in 1:4) {
   output[[i]] = mean_and_sd(list_norms[[i]])
 }
 ```
+
+## Use 'map'
+use a map function to do the same thing
+```{r}
+output_map = map(list_norms, mean_and_sd)
+
+output_median = map(list_norms, median)
+```
+
+##create a dataframe
+```{r}
+listcol_df = 
+  tibble(
+    name = c("a", "b", "c", "d"), 
+    samp = list_norms
+  )
+```
+
+```{r}
+listcol_df |> pull(samp)
+```
+
+```{r}
+mean_and_sd(listcol_df$samp[[1]])
+mean_and_sd(listcol_df$samp[[2]])
+mean_and_sd(listcol_df$samp[[3]])
+mean_and_sd(listcol_df$samp[[4]])
+```
+
+```{r}
+map(listcol_df$samp, mean_and_sd)
+
+# add a mean and sd column 
+listcol_df |>
+  mutate(mean_sd = map(samp, mean_and_sd),
+         median = map(samp, median)) |>
+  pull(mean_sd)
+```
+
+```{r}
+listcol_df |>
+  mutate(mean_sd = map(samp, mean_and_sd),
+         median = map(samp, median)) |>
+  select(mean_sd, name)
+```
+
+## NSDUH
+
+
+
+
+
+
 
 
