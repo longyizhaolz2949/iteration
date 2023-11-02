@@ -93,6 +93,81 @@ sim_results_df |>
   geom_boxplot()
 ```
 
+## simple linear regression 
+
+goal is to write a function that simulates data and then fits a regression, then repeat to look at the distribution of estimated coefficient
+
+```{r}
+
+beta_0 = 2
+beta_1 = 3
+
+slr_data = 
+  tibble(
+    x = rnorm(n = 30, mean = 1, sd = 1), 
+    y = beta_0 +beta_1*x +rnorm(30, mean = 0, sd = 1)
+  )
+
+ls_fit = lm(y~ x, data = slr_data)
+ls_fit
+
+slr_data |>
+  ggplot(aes(x = x, y = y)) +geom_point()
+```
+
+let's wrap this in a function 
+
+```{r}
+sim_slf = function (n_obs, beta_0 = 2, beta_1 = 3) {
+  
+  sim_data = 
+    tibble(
+      x = rnorm(30, mean = 1, sd = 1),
+      y = beta_1 +beta_1*x +rnorm(30, mean = 0, sd = 1)
+    )
+  
+  ls_fit = lm(y~x, data = sim_data)
+  
+  tibble(
+    beta0_hat = coef(ls_fit)[1], 
+    beta1_hat = coef(ls_fit)[2]
+  )
+}
+
+sim_slf (n_obs = 30)
+```
+
+run this a whole bunch of times
+
+```{r}
+sim_results_df = 
+  expand_grid(
+    sample_size = 30, 
+    iter = 1:1000
+  ) |>
+  mutate(estimate_df = map(sample_size, sim_slf)) |>
+  unnest(estimate_df)
+```
+
+let's look atresults
+
+```{r}
+sim_results_df |>
+  summarize(
+    mean_b0_hat = mean(beta0_hat), 
+    mean_b1_hat = mean(beta1_hat)
+  )
+
+sim_results_df|>
+  ggplot(aes(x = beta0_hat)) +
+  geom_histogram()
+
+sim_results_df |>
+  ggplot(aes(x = beta0_hat, y = beta1_hat)) +
+  geom_point()
+
+
+```
 
 
 
@@ -111,12 +186,8 @@ sim_results_df |>
 
 
 
-
-
-
-
-
-
+expand_grid
+expand.grid
 
 
 
